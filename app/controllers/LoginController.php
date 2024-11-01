@@ -50,7 +50,9 @@ class LoginController
         if ($login_model->verificar_login($usuario, $senha)) {
             echo 'Login realizado com sucesso!';
         } else {
-            echo '<span style="color: red">Não</span> foi possível realizar login!';
+            $_SESSION['erros_de_validacao'] = 'Credenciais incorretas, tente novamente!';
+            header('Location: /login');
+            exit;
         }
     }
     

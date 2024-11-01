@@ -9,17 +9,16 @@
     <form action="/login-submit" method="post">
         <label for="usuario">Usuário</label>
         <input type="text" name="usuario" id="usuario">
-        <?php if (isset($erros_de_validacao['usuario'])): ?>
-            <span style="color: red; font-weight: bolder"><?= $erros_de_validacao['usuario'] ?></span>
-        <?php endif; ?>
         <br>
 
         <label for="senha">Senha</label>
         <input type="password" name="senha" id="senha">
-        <?php if (isset($erros_de_validacao['senha'])): ?>
-            <span style="color: red; font-weight: bolder"><?= $erros_de_validacao['senha'] ?></span>
-        <?php endif; ?>
         <br>
+
+        <?php if (isset($erros_de_validacao)): ?>
+            <span style="color: red; font-weight: bolder"><?= $erros_de_validacao ?></span>
+            <br>
+        <?php endif; ?>
 
         <input type="submit" value="Login">
     </form>
