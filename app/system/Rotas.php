@@ -19,12 +19,16 @@ trait Rotas
             /*
              * Rotas relacionadas ao sistema de login do framework.
              */
+            '/login' => 'LoginController@formulario_login',
             '/cadastrar-usuario' => 'LoginController@formulario_cadastro'
         ],
         'POST' => [
+            
+            
             /*
              * Rotas relacionadas ao sistema de login do framework
              */
+            '/login-submit' => 'LoginController@login',
             '/cadastrar-usuario-submit' => 'LoginController@cadastrar'
         ]
     ];

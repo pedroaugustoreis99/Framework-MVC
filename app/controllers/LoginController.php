@@ -22,6 +22,38 @@ class LoginController
     /*
      * Actions utilizadas para processar requisições HTTP
      */
+    public function formulario_login()
+    {
+        $dados['titulo'] = 'Formulário de login';
+
+        if (isset($_SESSION['erros_de_validacao'])) {
+            $dados['erros_de_validacao'] = $_SESSION['erros_de_validacao'];
+            unset($_SESSION['erros_de_validacao']);
+        }
+
+        view('login/formulario_login', $dados);
+    }
+
+    public function login()
+    {
+        /*
+         * Verifica se os campos necessários para o cadastro estão definidos em $_POST.
+         */
+        extract($_POST);
+        if (!isset($usuario) OR !isset($senha)) {
+            Log::critical('O usuário realizou uma requisição POST para a Action ' . __METHOD__ . ' com dados incompletos. Está faltando $_POST["usuario"] ou $_POST["senha"]');
+            view('sistema/erro-interno');
+            exit;
+        }
+
+        $login_model = new LoginModel();
+        if ($login_model->verificar_login($usuario, $senha)) {
+            echo 'Login realizado com sucesso!';
+        } else {
+            echo '<span style="color: red">Não</span> foi possível realizar login!';
+        }
+    }
+    
     public function formulario_cadastro()
     {
         $dados['titulo'] = 'Formulário de cadastro de usuário';
@@ -36,14 +68,19 @@ class LoginController
 
     public function cadastrar()
     {
+        /*
+         * Verifica se os campos necessários para o cadastro estão definidos em $_POST.
+         */
         extract($_POST);
-
         if (!isset($usuario) OR !isset($senha) OR !isset($confirmar_senha)) {
             Log::critical('O usuário realizou uma requisição via POST para a Action ' . __METHOD__ . ' com dados incompletos. Está faltando $_POST["usuario"] ou $_POST["senha"] ou $_POST["confirmar_senha"]');
             view('sistema/erro-interno');
             exit;
         } 
 
+        /*
+         * Validação dos campos e caso seja necessário envia mensagens de erro para o formulário de cadastro.
+         */
         $this->validar_campos($usuario, $senha, $confirmar_senha, LoginController::STATUS_CRIANDO);
         if (!empty($this->erros)) {
             $_SESSION['erros_de_validacao'] = $this->erros;
@@ -51,12 +88,13 @@ class LoginController
             exit;
         }
 
+        /*
+         * Registra um novo usuário no banco de dados.
+         */
         $login_model = new LoginModel();
         $resultado = $login_model->cadastrar($usuario, $senha);
         if ($resultado->status == 'success') {
-            /*
-             * Depois vou criar uma view informando que o usuário foi cadastrado com sucesso!
-             */
+            // Depois vou criar uma view informando que o usuário foi cadastrado com sucesso!
             echo 'Usuário cadastrado com sucesso!';
         } else if ($resultado->status == 'error') {
             Log::alert("Houve um erro na action " . __METHOD__ . " ao tentar cadastrar um usuário. O erro produziu a seguinte mensagem: " . $resultado->msg);

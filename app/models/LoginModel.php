@@ -7,6 +7,25 @@ use system\Database;
 class LoginModel extends Database
 {
     /*
+     * Essa função consulta o banco de dados para verificar se o nome de usuário fornecido
+     * existe e se a senha está correta. 
+     * 
+     * @param string $usuario - O nome de usuário fornecido pelo usuário.
+     * @param string $senha - A senha fornecida pelo usuário.
+     * @return bool - Retorna true se as credenciais estiverem corretas, caso contrário, retorna false.
+     */
+    public function verificar_login($usuario, $senha)
+    {
+        $sql = 'SELECT senha FROM usuarios WHERE usuario = AES_ENCRYPT(:usuario, "' . MYSQL_AES_KEY . '")';
+        $param = [':usuario' => $usuario];
+        $result = $this->execute_query($sql, $param);
+        
+        if ($result->affected_rows == 0) return false;
+
+        return password_verify($senha, $result->results[0]->senha) ? true : false;
+    }
+
+    /*
      * Método para verificar se um usuário já existe ao criar.
      */
     public function usuario_existe_criando($usuario)
