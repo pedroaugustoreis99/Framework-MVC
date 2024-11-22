@@ -1,0 +1,26 @@
+{
+    "name": "pedroaugustoreis99/framework-mvc",
+    "description": "Framework-MVC é um núcleo de aplicação em PHP que segue o padrão MVC (Model-View-Controller). Ele permite que os desenvolvedores foquem nas funcionalidades específicas do projeto enquanto utilizam recursos pré-fabricados e otimizados para tarefas comuns.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Pedro Augusto"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "system\\": ["app/system"],
+            "controllers\\": ["app/controllers"],
+            "middlewares\\": ["app/middlewares"],
+            "models\\": ["app/models"],
+            "helpers\\": ["app/helpers"]
+        },
+        "files": [
+            "app/config.php",
+            "app/helpers/functions.php"
+        ]
+    }
+}
