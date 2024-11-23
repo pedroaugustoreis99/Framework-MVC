@@ -28,7 +28,9 @@ trait Rotas
             '/home' => 'HomeController@home',
             '/logout' => 'LoginController@logout',
 
-            '/editar-perfil' => 'LoginController@editar'
+            '/editar-perfil' => 'LoginController@editar',
+            '/excluir-perfil' => 'LoginController@excluir',
+            
         ],
         'POST' => [
             
@@ -38,7 +40,8 @@ trait Rotas
              */
             '/login-submit' => 'LoginController@login',
             '/cadastrar-usuario-submit' => 'LoginController@cadastrar',
-            '/atualizar-perfil' => 'LoginController@atualizar'
+            '/atualizar-perfil' => 'LoginController@atualizar',
+            '/exclusao-confirmada' => 'LoginController@exclusao_confirmada'
         ]
     ];
 

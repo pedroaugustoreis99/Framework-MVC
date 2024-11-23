@@ -153,11 +153,11 @@ class LoginController
             exit;
         }
 
-        $resultado = $login_model->atualizar($_SESSION['id_usuario'], $usuario, $nova_senha);
+        $resultado = $login_model->atualizar($_SESSION['id_usuario'], $usuario, $senha);
         if ($resultado->status == 'success') {
             header('Location: /home');
         } else if ($resultado->status == 'error') {
-            Log::alert("Houve um erro na action " . __METHOD__ . " ao tentar cadastrar um usuário. O erro produziu a seguinte mensagem: " . $resultado->msg);
+            Log::alert("Houve um erro na action " . __METHOD__ . " ao tentar atualizar um usuário. O erro produziu a seguinte mensagem: " . $resultado->msg);
             view('sistema/erro-interno');
         }
     }
@@ -207,6 +207,44 @@ class LoginController
          */
         if ($confirmar_senha != $senha) {
             $this->erros['confirmar_senha'] = 'A senha do campo "Confirme a senha" deve ser igual ao campo "Senha"';
+        }
+    }
+
+    public function excluir()
+    {
+        $dados = array();
+        if (isset($_SESSION['erro_de_validacao'])) {
+            $dados['erro_de_validacao'] = $_SESSION['erro_de_validacao'];
+            unset($_SESSION['erro_de_validacao']);
+        }
+
+        view('login/excluir', $dados);
+    }
+
+    public function exclusao_confirmada()
+    {
+        if (!isset($_POST['senha'])) {
+            $_SESSION['erro_de_validacao'] = 'Digite uma senha!';
+            header('Location: /excluir-perfil');
+            exit;
+        }
+
+        $senha = $_POST['senha'];
+        
+        $login_model = new LoginModel();
+        $usuario = $login_model->retorna_usuario($_SESSION['id_usuario']);
+        if ($login_model->verificar_login($usuario, $senha)) {
+            $resultado = $login_model->excluir($_SESSION['id_usuario']);
+            if ($resultado->status == 'success') {
+                header('Location: /');
+            } else if ($resultado->status == 'error') {
+                Log::alert("Houve um erro na action " . __METHOD__ . " ao tentar atualizar um usuário. O erro produziu a seguinte mensagem: " . $resultado->msg);
+                view('sistema/erro-interno');
+            }
+        } else {
+            $_SESSION['erro_de_validacao'] = 'A senha digitada está incorreta, tente novamente!';
+            header('Location: /excluir-perfil');
+            exit;
         }
     }
 }

@@ -21,7 +21,7 @@ class LoginModel extends Database
         $result = $this->execute_query($sql, $param);
         
         if ($result->affected_rows == 0) return false;
-
+        
         return password_verify($senha, $result->results[0]->senha);
     }
 
@@ -114,5 +114,12 @@ class LoginModel extends Database
             ':id' => $id
         ];
         return $this->execute_non_query($sql, $params);
+    }
+
+    public function excluir($id)
+    {
+        $sql = 'DELETE FROM usuarios WHERE id = :id';
+        $param = [':id' => $id];
+        return $this->execute_non_query($sql, $param);
     }
 }

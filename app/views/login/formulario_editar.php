@@ -37,5 +37,9 @@
 
         <input type="submit" value="atualizar">
     </form>
+    <br>
+    <br>
+
+    <p>Para excluir o seu perfil <a href="/excluir-perfil"><span style="color: red">clique aqui</span></a></p>
 </body>
 </html>

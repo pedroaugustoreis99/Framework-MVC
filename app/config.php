@@ -20,12 +20,12 @@ define('MYSQL_CONFIG', [
  * Constantes utilizadas para criptografar e descriptografar dados
  * Serão usadas em app/helpers/functions para garantir a segurança dos dados
  */
-define('OPENSSL_KEY', ''); // Chave utilizada pelo OpenSSL para criptografia e descriptografia
-define('OPENSSL_IV', ''); // Vetor de inicialização (IV) para a criptografia OpenSSL
+define('OPENSSL_KEY', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'); // Chave utilizada pelo OpenSSL para criptografia e descriptografia
+define('OPENSSL_IV', 'BzKAbjuREsHgnw56'); // Vetor de inicialização (IV) para a criptografia OpenSSL
 
 /*
  * Chave de criptografia AES para encriptar e desencriptar dados sensíveis no MySQL.
  * Essa chave deve ser mantida em sigilo e nunca ser exposta em repositórios públicos.
  * Alterá-la resultará na impossibilidade de acessar dados criptografados anteriormente.
  */
-define('MYSQL_AES_KEY', '');
+define('MYSQL_AES_KEY', 'Vduu47qL51hLn6bkYkY6NlO1nivsmdfD');
