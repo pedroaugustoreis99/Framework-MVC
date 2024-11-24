@@ -33,7 +33,7 @@ trait Rotas
             
         ],
         'POST' => [
-            
+
             
             /*
              * Rotas relacionadas ao sistema de login do framework

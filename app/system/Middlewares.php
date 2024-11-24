@@ -38,7 +38,22 @@ trait Middlewares
          */
         '/home' => [
             'verificar_autenticacao'
-        ]
+        ],
+        '/logout' => [
+            'verificar_autenticacao'
+        ],
+        '/editar-perfil' => [
+            'verificar_autenticacao'
+        ],
+        '/excluir-perfil' => [
+            'verificar_autenticacao'
+        ],
+        '/atualizar-perfil' => [
+            'verificar_autenticacao'
+        ],
+        '/exclusao-confirmada' => [
+            'verificar_autenticacao'
+        ],
     ];
 
     /*
