@@ -1,0 +1,63 @@
+<?php
+
+if ($argc != 3 or !in_array($argv[1], ['controller', 'model'])) {
+    echo "\033[31m------------------------------------------------------\033[0m \n";
+    echo "\033[31mVocê digitou um comando inválido!\033[0m \n\n";
+    echo "Veja os comandos disponíveis: \n";
+    echo "    \033[1m\033[34mphp gerar controller NomeController\033[0m\033[0m \n";
+    echo "    \033[1m\033[34mphp gerar model NomeModel\033[0m\033[0m \n";
+    echo "\n\n \033[31m------------------------------------------------------\033[0m \n";
+    exit;
+}
+
+if ($argv[1] == 'controller') {
+    if (!preg_match('/^[A-Z][a-zA-Z]*Controller$/', $argv[2])) {
+        echo "\033[31m------------------------------------------------------\033[0m \n";
+        echo "\033[31mVocê digitou um nome de controller inválido!\033[0m \n\n";
+        echo "Veja como nomear um controller: \n";
+        echo "    O nome do controller deve começar com uma letra maiúscula \n";
+        echo "    Conter apenas letras \n";
+        echo "    Terminar com 'Controller' \n";
+        echo "    Não ter espaços ou caracteres especiais. \n";
+        echo "    Exemplo válido: \033[1m\033[34m'UserController'\033[0m\033[0m \n";
+        echo "\n\n \033[31m------------------------------------------------------\033[0m \n";
+        exit;
+    } else {
+        $pasta = 'app/controllers/';
+        $nome_arquivo = $argv[2] . '.php';
+        $nome_controller = $argv[2];
+        if (file_exists($pasta . $nome_arquivo)) {
+            echo "\033[31m------------------------------------------------------\033[0m \n";
+            echo "O \033[1m\033[34m$nome_arquivo\033[0m\033[0m não foi criado pois ele \033[31mjá existe!\033[0m \n\n";
+            echo " \033[31m------------------------------------------------------\033[0m \n";
+            exit;
+        }
+        file_put_contents($pasta . $nome_arquivo, "<?php \n\nnamespace controllers; \n\nclass $nome_controller \n{ \n\n}");
+    }
+}
+
+if ($argv[1] == 'model') {
+    if (!preg_match('/^[A-Z][a-zA-Z]*Model$/', $argv[2])) {
+        echo "\033[31m------------------------------------------------------\033[0m \n";
+        echo "\033[31mVocê digitou um nome do model inválido!\033[0m \n\n";
+        echo "Veja como nomear um model: \n";
+        echo "    O nome do model deve começar com uma letra maiúscula \n";
+        echo "    Conter apenas letras \n";
+        echo "    Terminar com 'Model' \n";
+        echo "    Não ter espaços ou caracteres especiais. \n";
+        echo "    Exemplo válido: \033[1m\033[34m'UserModel'\033[0m\033[0m \n";
+        echo "\n\n \033[31m------------------------------------------------------\033[0m \n";
+        exit;
+    } else {
+        $pasta = 'app/models/';
+        $nome_arquivo = $argv[2] . '.php';
+        $nome_controller = $argv[2];
+        if (file_exists($pasta . $nome_arquivo)) {
+            echo "\033[31m------------------------------------------------------\033[0m \n";
+            echo "O \033[1m\033[34m$nome_arquivo\033[0m\033[0m não foi criado pois ele \033[31mjá existe!\033[0m \n\n";
+            echo " \033[31m------------------------------------------------------\033[0m \n";
+            exit;
+        }
+        file_put_contents($pasta . $nome_arquivo, "<?php \n\nnamespace models; \n\nuse system\Database; \n\nclass $nome_controller extends Database \n{ \n\n}");
+    }
+}
