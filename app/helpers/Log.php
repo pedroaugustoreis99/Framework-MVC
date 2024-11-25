@@ -2,22 +2,28 @@
 
 namespace helpers;
 
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
 class Log
 {
-    /*
-     * Método privado que inicializa o logger e configura o handler.
-     * Esse método cria uma instância do Logger e adiciona um StreamHandler, que define o arquivo onde os logs serão salvos.
-     * 
-     * @return Logger - Retorna a instância configurada do logger.
-     */
-    private static function getLogger()
+    // Caminho para o arquivo de log
+    private static $logFile = 'app/logs/app.log';
+
+    // Método privado para escrever no log
+    private static function writeLog($level, $message)
     {
-        $log = new Logger('app_logs');
-        $log->pushHandler(new StreamHandler('app/logs/app.log'));
-        return $log;
+        // Formata a data e hora
+        $timestamp = date('Y-m-d H:i:s');
+
+        // Monta a mensagem de log
+        $formattedMessage = sprintf("[%s] %s: %s%s", $timestamp, strtoupper($level), $message, PHP_EOL);
+
+        // Verifica se o diretório existe, senão cria
+        $logDir = dirname(self::$logFile);
+        if (!is_dir($logDir)) {
+            mkdir($logDir, 0777, true);
+        }
+
+        // Escreve a mensagem no arquivo de log
+        file_put_contents(self::$logFile, $formattedMessage, FILE_APPEND);
     }
 
     /*
@@ -26,7 +32,7 @@ class Log
      */
     public static function info($msg)
     {
-        self::getLogger()->info($msg);
+        self::writeLog('info', $msg);
     }
 
     /*
@@ -35,7 +41,7 @@ class Log
      */
     public static function notice($msg)
     {
-        self::getLogger()->notice($msg);
+        self::writeLog('notice', $msg);
     }
 
     /*
@@ -44,7 +50,7 @@ class Log
      */
     public static function warning($msg)
     {
-        self::getLogger()->warning($msg);
+        self::writeLog('warning', $msg);
     }
 
     /*
@@ -53,7 +59,7 @@ class Log
      */
     public static function error($msg)
     {
-        self::getLogger()->error($msg);
+        self::writeLog('error', $msg);
     }
 
     /*
@@ -62,7 +68,7 @@ class Log
      */
     public static function critical($msg)
     {
-        self::getLogger()->critical($msg);
+        self::writeLog('critical', $msg);
     }
 
     /*
@@ -71,7 +77,7 @@ class Log
      */
     public static function alert($msg)
     {
-        self::getLogger()->alert($msg);
+        self::writeLog('alert', $msg);
     }
 
     /*
@@ -80,6 +86,6 @@ class Log
      */
     public static function emergency($msg)
     {
-        self::getLogger()->emergency($msg);
+        self::writeLog('emergency', $msg);
     }
 }

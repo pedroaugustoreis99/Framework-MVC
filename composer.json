@@ -7,9 +7,7 @@
             "name": "Pedro Augusto"
         }
     ],
-    "require": {
-        "monolog/monolog": "^3.7"
-    },
+    "require": {},
     "autoload": {
         "psr-4": {
             "system\\": ["app/system"],
